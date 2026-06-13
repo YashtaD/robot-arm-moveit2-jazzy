@@ -1,0 +1,13 @@
+Final MoveIt milestone achieved.
+
+Working features:
+- Robot model loads in RViz
+- MotionPlanning status OK
+- arm group plans and executes
+- gripper group plans and executes
+- ros2_control controllers active
+- FakeSystem updates joint_states
+- Plan & Execute works for arm and gripper
+
+Launch command:
+ros2 launch robot_arm_moveit_config demo.launch.py

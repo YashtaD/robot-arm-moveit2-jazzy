@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot name="robot_arm">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         PLANNING GROUPS
+    ════════════════════════════════════════════════════════════════ -->
+
+    <!--
+      arm group: CHAIN definition so KDL IK knows the full serial path.
+      Chain: base_link → base_plate → forward_drive_arm → horizontal_arm → claw_support
+    -->
+    <group name="arm">
+        <chain base_link="base_link" tip_link="claw_support"/>
+    </group>
+
+    <!--
+      gripper group: joint5_left_gear only.
+      joint6_right_gear is a mimic joint — never put it in a planning group.
+    -->
+    <group name="gripper">
+        <joint name="joint5_left_gear"/>
+    </group>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         GROUP STATES
+    ════════════════════════════════════════════════════════════════ -->
+    <group_state name="open" group="gripper">
+        <joint name="joint5_left_gear" value="0.75"/>
+    </group_state>
+    <group_state name="closed" group="gripper">
+        <joint name="joint5_left_gear" value="0"/>
+    </group_state>
+    <group_state name="home" group="arm">
+        <joint name="joint1" value="0"/>
+        <joint name="joint2" value="0"/>
+    </group_state>
+        <group_state name="raised" group="arm">
+        <joint name="joint1" value="0.2"/>
+        <joint name="joint2" value="0.2"/>
+    </group_state>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         END EFFECTOR
+    ════════════════════════════════════════════════════════════════ -->
+    <end_effector name="gripper"
+                  parent_link="claw_support"
+                  group="gripper"
+                  parent_group="arm"/>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         VIRTUAL JOINT
+         FIX: child_link="world"  (was "base_link")
+         REASON: must match the ROOT link of the URDF.
+         Your URDF declares <link name="world"/> first — that is
+         the root. When this says "base_link" move_group cannot
+         locate the robot root and crashes before it starts.
+    ════════════════════════════════════════════════════════════════ -->
+    <virtual_joint name="virtual_joint"
+                   type="fixed"
+                   parent_frame="world"
+                   child_link="world"/>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         PASSIVE JOINTS
+         Joints that must NOT be commanded by any controller.
+    ════════════════════════════════════════════════════════════════ -->
+    <passive_joint name="joint3_vertical_drive_arm"/>
+    <passive_joint name="joint4_triangular_link"/>
+    <passive_joint name="joint6_right_gear"/>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         DISABLE COLLISIONS
+    ════════════════════════════════════════════════════════════════ -->
+    <disable_collisions link1="base_link" link2="base_plate" reason="Adjacent"/>
+    <disable_collisions link1="base_link" link2="claw_support" reason="Default"/>
+    <disable_collisions link1="base_link" link2="forward_drive_arm" reason="Default"/>
+    <disable_collisions link1="base_link" link2="horizontal_arm" reason="Default"/>
+    <disable_collisions link1="base_link" link2="left_finger" reason="Never"/>
+    <disable_collisions link1="base_link" link2="link" reason="Always"/>
+    <disable_collisions link1="base_link" link2="link_1" reason="Always"/>
+    <disable_collisions link1="base_link" link2="link_2" reason="Always"/>
+    <disable_collisions link1="base_link" link2="right_finger" reason="Never"/>
+    <disable_collisions link1="base_link" link2="triangular_link" reason="Always"/>
+    <disable_collisions link1="base_link" link2="vertical_drive_arm" reason="Always"/>
+    <disable_collisions link1="base_plate" link2="claw_support" reason="Always"/>
+    <disable_collisions link1="base_plate" link2="forward_drive_arm" reason="Adjacent"/>
+    <disable_collisions link1="base_plate" link2="horizontal_arm" reason="Always"/>
+    <disable_collisions link1="base_plate" link2="left_finger" reason="Never"/>
+    <disable_collisions link1="base_plate" link2="link" reason="Default"/>
+    <disable_collisions link1="base_plate" link2="link_1" reason="Default"/>
+    <disable_collisions link1="base_plate" link2="link_2" reason="Default"/>
+    <disable_collisions link1="base_plate" link2="right_finger" reason="Never"/>
+    <disable_collisions link1="base_plate" link2="triangular_link" reason="Default"/>
+    <disable_collisions link1="base_plate" link2="vertical_drive_arm" reason="Adjacent"/>
+    <disable_collisions link1="claw_support" link2="forward_drive_arm" reason="Default"/>
+    <disable_collisions link1="claw_support" link2="horizontal_arm" reason="Adjacent"/>
+    <disable_collisions link1="claw_support" link2="left_finger" reason="Adjacent"/>
+    <disable_collisions link1="claw_support" link2="link" reason="Always"/>
+    <disable_collisions link1="claw_support" link2="link_1" reason="Always"/>
+    <disable_collisions link1="claw_support" link2="link_2" reason="Always"/>
+    <disable_collisions link1="claw_support" link2="right_finger" reason="Adjacent"/>
+    <disable_collisions link1="claw_support" link2="triangular_link" reason="Always"/>
+    <disable_collisions link1="claw_support" link2="vertical_drive_arm" reason="Always"/>
+    <disable_collisions link1="forward_drive_arm" link2="horizontal_arm" reason="Adjacent"/>
+    <disable_collisions link1="forward_drive_arm" link2="left_finger" reason="Never"/>
+    <disable_collisions link1="forward_drive_arm" link2="link" reason="Always"/>
+    <disable_collisions link1="forward_drive_arm" link2="link_1" reason="Always"/>
+    <disable_collisions link1="forward_drive_arm" link2="link_2" reason="Always"/>
+    <disable_collisions link1="forward_drive_arm" link2="right_finger" reason="Never"/>
+    <disable_collisions link1="forward_drive_arm" link2="triangular_link" reason="Adjacent"/>
+    <disable_collisions link1="forward_drive_arm" link2="vertical_drive_arm" reason="Always"/>
+    <disable_collisions link1="horizontal_arm" link2="left_finger" reason="Never"/>
+    <disable_collisions link1="horizontal_arm" link2="link" reason="Always"/>
+    <disable_collisions link1="horizontal_arm" link2="link_1" reason="Always"/>
+    <disable_collisions link1="horizontal_arm" link2="link_2" reason="Always"/>
+    <disable_collisions link1="horizontal_arm" link2="right_finger" reason="Never"/>
+    <disable_collisions link1="horizontal_arm" link2="triangular_link" reason="Always"/>
+    <disable_collisions link1="horizontal_arm" link2="vertical_drive_arm" reason="Always"/>
+    <disable_collisions link1="left_finger" link2="link" reason="Never"/>
+    <disable_collisions link1="left_finger" link2="link_1" reason="Never"/>
+    <disable_collisions link1="left_finger" link2="link_2" reason="Never"/>
+    <disable_collisions link1="left_finger" link2="right_finger" reason="Never"/>
+    <disable_collisions link1="left_finger" link2="triangular_link" reason="Never"/>
+    <disable_collisions link1="left_finger" link2="vertical_drive_arm" reason="Never"/>
+    <disable_collisions link1="link" link2="link_1" reason="Default"/>
+    <disable_collisions link1="link" link2="link_2" reason="Default"/>
+    <disable_collisions link1="link" link2="right_finger" reason="Never"/>
+    <disable_collisions link1="link" link2="triangular_link" reason="Default"/>
+    <disable_collisions link1="link" link2="vertical_drive_arm" reason="Adjacent"/>
+    <disable_collisions link1="link_1" link2="link_2" reason="Default"/>
+    <disable_collisions link1="link_1" link2="right_finger" reason="Never"/>
+    <disable_collisions link1="link_1" link2="triangular_link" reason="Default"/>
+    <disable_collisions link1="link_1" link2="vertical_drive_arm" reason="Adjacent"/>
+    <disable_collisions link1="link_2" link2="right_finger" reason="Never"/>
+    <disable_collisions link1="link_2" link2="triangular_link" reason="Adjacent"/>
+    <disable_collisions link1="link_2" link2="vertical_drive_arm" reason="Default"/>
+    <disable_collisions link1="right_finger" link2="triangular_link" reason="Never"/>
+    <disable_collisions link1="right_finger" link2="vertical_drive_arm" reason="Never"/>
+    <disable_collisions link1="triangular_link" link2="vertical_drive_arm" reason="Default"/>
+    <disable_collisions link1="right_gear_pivot" link2="claw_support" reason="Adjacent"/>
+    <disable_collisions link1="right_gear_pivot" link2="right_finger" reason="Adjacent"/>
+    <disable_collisions link1="right_gear_pivot" link2="left_gear_pivot" reason="Adjacent"/>
+    <disable_collisions link1="left_gear_pivot" link2="claw_support" reason="Adjacent"/>
+    <disable_collisions link1="left_gear_pivot" link2="left_finger" reason="Adjacent"/>
+
+</robot>

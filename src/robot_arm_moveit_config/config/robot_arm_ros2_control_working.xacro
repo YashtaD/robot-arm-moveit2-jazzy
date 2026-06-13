@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="robot_arm_ros2_control" params="name initial_positions_file">
+
+    <ros2_control name="${name}" type="system">
+
+      <hardware>
+        <plugin>mock_components/GenericSystem</plugin>
+      </hardware>
+
+      <joint name="joint1">
+        <command_interface name="position">
+          <param name="min">-3.14</param>
+          <param name="max">3.14</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+      </joint>
+
+      <joint name="joint2">
+        <command_interface name="position">
+          <param name="min">-1.57</param>
+          <param name="max">1.57</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+      </joint>
+
+      <joint name="joint5_left_gear">
+        <command_interface name="position">
+          <param name="min">0.0</param>
+          <param name="max">1.309</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+      </joint>
+
+    </ros2_control>
+
+  </xacro:macro>
+
+</robot>

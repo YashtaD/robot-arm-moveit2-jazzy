@@ -1,0 +1,21 @@
+# kinematics.yaml
+# ══════════════════════════════════════════════════════════════════
+# FIX: file was empty "{}" — no IK solver was configured.
+# Without a solver, move_group cannot compute inverse kinematics
+# and the interactive marker does not appear in RViz.
+#
+# Using KDLKinematicsPlugin (default, always available in MoveIt 2).
+# The chain is: base_link → claw_support (defined in SRDF).
+# ══════════════════════════════════════════════════════════════════
+
+arm:
+  kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin
+  kinematics_solver_search_resolution: 0.005
+  kinematics_solver_timeout: 0.05
+  kinematics_solver_attempts: 3
+
+gripper:
+  kinematics_solver: kdl_kinematics_plugin/KDLKinematicsPlugin
+  kinematics_solver_search_resolution: 0.005
+  kinematics_solver_timeout: 0.05
+  kinematics_solver_attempts: 3

@@ -1,0 +1,26 @@
+moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+
+moveit_simple_controller_manager:
+  controller_names:
+    - arm_controller
+    - gripper_controller
+
+  # ── controller definitions MUST be nested here ──────────────────
+  # move_group looks for:
+  #   moveit_simple_controller_manager.arm_controller.action_ns
+  # NOT at root level — that is why "No action namespace" error fired.
+
+  arm_controller:
+    type: FollowJointTrajectory
+    action_ns: follow_joint_trajectory
+    default: true
+    joints:
+      - joint1
+      - joint2
+
+  gripper_controller:
+    type: FollowJointTrajectory
+    action_ns: follow_joint_trajectory
+    default: true
+    joints:
+      - joint5_left_gear

@@ -1,0 +1,227 @@
+<?xml version="1.0"?>
+
+<robot name="robot_arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property name="PI" value="3.141592653589793"/>
+  <xacro:property name="mesh_scale" value="0.01 0.01 0.01"/>
+
+  <link name="world"/>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="-0.5 -0.5 -0.305" rpy="0 0 0"/>
+      <geometry><mesh filename="package://robot_arm_description/meshes/basement.STL" scale="${mesh_scale}"/></geometry>
+    </visual>
+    <collision><origin xyz="0 0 0.025"/><geometry><box size="0.20 0.20 0.05"/></geometry></collision>
+    <inertial><origin xyz="0 0 0.025"/><mass value="1.0"/><inertia ixx="0.00354" ixy="0" ixz="0" iyy="0.00354" iyz="0" izz="0.00667"/></inertial>
+  </link>
+
+  <link name="base_plate">
+    <visual>
+      <origin xyz="-0.39 -0.39 -0.56" rpy="0 0 0"/>
+      <geometry><mesh filename="package://robot_arm_description/meshes/base_plate.STL" scale="${mesh_scale}"/></geometry>
+    </visual>
+    <collision><origin xyz="0 0 0.02"/><geometry><cylinder radius="0.08" length="0.04"/></geometry></collision>
+    <inertial><origin xyz="0 0 0.02"/><mass value="0.8"/><inertia ixx="0.00053" ixy="0" ixz="0" iyy="0.00053" iyz="0" izz="0.00256"/></inertial>
+  </link>
+
+  <link name="forward_drive_arm">
+    <visual>
+      <origin xyz="0.17 0.09 0.28" rpy="0 ${-PI/2} ${PI/2}"/>
+      <geometry><mesh filename="package://robot_arm_description/meshes/forward_drive_arm.STL" scale="${mesh_scale}"/></geometry>
+    </visual>
+    <collision><origin xyz="0 0 0.05"/><geometry><box size="0.05 0.04 0.10"/></geometry></collision>
+    <inertial><origin xyz="0 0 0.05"/><mass value="0.45"/><inertia ixx="0.000435" ixy="0" ixz="0" iyy="0.000469" iyz="0" izz="0.000154"/></inertial>
+  </link>
+
+  <link name="vertical_drive_arm">
+    <visual>
+      <origin xyz="-0.1 -0.39 0.42" rpy="-1.5708 ${-2*PI} ${PI/2}"/>
+      <geometry><mesh filename="package://robot_arm_description/meshes/vertical_drive_arm.STL" scale="${mesh_scale}"/></geometry>
+    </visual>
+    <collision><origin xyz="0 0 0.05"/><geometry><box size="0.05 0.04 0.10"/></geometry></collision>
+    <inertial><origin xyz="0 0 0.05"/><mass value="0.45"/><inertia ixx="0.000435" ixy="0" ixz="0" iyy="0.000469" iyz="0" izz="0.000154"/></inertial>
+  </link>
+
+  <link name="horizontal_arm">
+    <visual>
+      <origin xyz="-0.035 -0.4 1.08" rpy="${PI/2} 0 ${PI/2}"/>
+      <geometry><mesh filename="package://robot_arm_description/meshes/horizontal_arm.STL" scale="${mesh_scale}"/></geometry>
+    </visual>
+    <collision><origin xyz="0.05 0 0"/><geometry><box size="0.10 0.03 0.03"/></geometry></collision>
+    <inertial><origin xyz="0.05 0 0"/><mass value="0.35"/><inertia ixx="0.0000525" ixy="0" ixz="0" iyy="0.000318" iyz="0" izz="0.000318"/></inertial>
+  </link>
+
+  <link name="triangular_link">
+    <visual>
+      <origin xyz="0.13 -0.39 1.4" rpy="${PI} ${-2*PI} ${PI}"/>
+      <geometry><mesh filename="package://robot_arm_description/meshes/triangular_link.STL" scale="${mesh_scale}"/></geometry>
+    </visual>
+    <collision><origin xyz="0.05 0 0"/><geometry><box size="0.10 0.03 0.03"/></geometry></collision>
+    <inertial><origin xyz="0.05 0 0"/><mass value="0.35"/><inertia ixx="0.0000525" ixy="0" ixz="0" iyy="0.000318" iyz="0" izz="0.000318"/></inertial>
+  </link>
+
+  <link name="link">
+    <visual>
+      <origin xyz="0.09 0.06 1.25" rpy="${PI/2} 0 ${PI/2}"/>
+      <geometry><mesh filename="package://robot_arm_description/meshes/link.STL" scale="${mesh_scale}"/></geometry>
+    </visual>
+    <collision><origin xyz="0.05 0 0"/><geometry><box size="0.10 0.03 0.03"/></geometry></collision>
+    <inertial><origin xyz="0.05 0 0"/><mass value="0.35"/><inertia ixx="0.0000525" ixy="0" ixz="0" iyy="0.000318" iyz="0" izz="0.000318"/></inertial>
+  </link>
+
+  <link name="link_1">
+    <visual>
+      <origin xyz="-0.05 -0.4 0.3" rpy="${PI} ${-PI/2} ${-PI}"/>
+      <geometry><mesh filename="package://robot_arm_description/meshes/link.STL" scale="${mesh_scale}"/></geometry>
+    </visual>
+    <collision><origin xyz="0.05 0 0"/><geometry><box size="0.10 0.03 0.03"/></geometry></collision>
+    <inertial><origin xyz="0.05 0 0"/><mass value="0.35"/><inertia ixx="0.0000525" ixy="0" ixz="0" iyy="0.000318" iyz="0" izz="0.000318"/></inertial>
+  </link>
+
+  <link name="link_2">
+    <visual>
+      <origin xyz="0.12 -0.4 1.4" rpy="${PI} ${PI/2} ${-PI}"/>
+      <geometry><mesh filename="package://robot_arm_description/meshes/link.STL" scale="${mesh_scale}"/></geometry>
+    </visual>
+    <collision><origin xyz="0.05 0 0"/><geometry><box size="0.10 0.03 0.03"/></geometry></collision>
+    <inertial><origin xyz="0.05 0 0"/><mass value="0.35"/><inertia ixx="0.0000525" ixy="0" ixz="0" iyy="0.000318" iyz="0" izz="0.000318"/></inertial>
+  </link>
+
+  <link name="claw_support">
+    <visual>
+      <origin xyz="0.13 0.765 0.995" rpy="0 0 ${PI/2}"/>
+      <geometry><mesh filename="package://robot_arm_description/meshes/claw_support.STL" scale="${mesh_scale}"/></geometry>
+    </visual>
+    <collision><origin xyz="0.03 0 0"/><geometry><box size="0.06 0.04 0.04"/></geometry></collision>
+    <inertial><origin xyz="0.03 0 0"/><mass value="0.25"/><inertia ixx="0.0000667" ixy="0" ixz="0" iyy="0.000108" iyz="0" izz="0.000108"/></inertial>
+  </link>
+
+  <link name="right_gear_pivot">
+    <visual><origin xyz="0 0 0"/><geometry><sphere radius="0.008"/></geometry><material name="right_gear_marker"><color rgba="0 1 0 1"/></material></visual>
+  </link>
+
+  <link name="left_gear_pivot">
+    <visual><origin xyz="0 0 0"/><geometry><sphere radius="0.008"/></geometry><material name="left_gear_marker"><color rgba="0 0 1 1"/></material></visual>
+  </link>
+
+  <link name="right_finger">
+    <visual>
+      <origin xyz="-0.11 0.49 -0.03" rpy="0 0 ${-PI/2}"/>
+      <geometry><mesh filename="package://robot_arm_description/meshes/right_finger.STL" scale="${mesh_scale}"/></geometry>
+    </visual>
+    <collision><origin xyz="-0.03 0 0"/><geometry><box size="0.06 0.015 0.02"/></geometry></collision>
+    <inertial><origin xyz="-0.03 0 0"/><mass value="0.05"/><inertia ixx="0.0000026" ixy="0" ixz="0" iyy="0.0000167" iyz="0" izz="0.0000159"/></inertial>
+  </link>
+
+  <link name="left_finger">
+    <visual>
+      <origin xyz="-0.055 0.49 -0.03" rpy="0 0 ${-PI/2}"/>
+      <geometry><mesh filename="package://robot_arm_description/meshes/left_finger.STL" scale="${mesh_scale}"/></geometry>
+    </visual>
+    <collision><origin xyz="0.03 0 0"/><geometry><box size="0.06 0.015 0.02"/></geometry></collision>
+    <inertial><origin xyz="0.03 0 0"/><mass value="0.05"/><inertia ixx="0.0000026" ixy="0" ixz="0" iyy="0.0000167" iyz="0" izz="0.0000159"/></inertial>
+  </link>
+
+  <!-- JOINTS -->
+
+  <joint name="world_to_base_link" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="base_link_to_base_plate" type="fixed">
+    <parent link="base_link"/>
+    <child link="base_plate"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint1" type="revolute">
+    <parent link="base_plate"/>
+    <child link="forward_drive_arm"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-3.14" upper="3.14" effort="10" velocity="1"/>
+  </joint>
+
+  <joint name="joint2" type="revolute">
+    <parent link="forward_drive_arm"/>
+    <child link="horizontal_arm"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-1.57" upper="1.57" effort="10" velocity="1"/>
+  </joint>
+
+  <joint name="joint3_vertical_drive_arm" type="revolute">
+    <parent link="base_plate"/>
+    <child link="vertical_drive_arm"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-1.57" upper="1.57" effort="8" velocity="1"/>
+    <mimic joint="joint2" multiplier="1" offset="0"/>
+  </joint>
+
+  <joint name="joint4_triangular_link" type="revolute">
+    <parent link="forward_drive_arm"/>
+    <child link="triangular_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-1.57" upper="1.57" effort="8" velocity="1"/>
+    <mimic joint="joint2" multiplier="1" offset="0"/>
+  </joint>
+
+  <joint name="vertical_drive_arm_to_link" type="fixed">
+    <parent link="vertical_drive_arm"/>
+    <child link="link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="vertical_drive_arm_to_link_1" type="fixed">
+    <parent link="vertical_drive_arm"/>
+    <child link="link_1"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="triangular_link_to_link_2" type="fixed">
+    <parent link="triangular_link"/>
+    <child link="link_2"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="horizontal_arm_to_claw_support" type="fixed">
+    <parent link="horizontal_arm"/>
+    <child link="claw_support"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="claw_support_to_left_gear_pivot" type="fixed">
+    <parent link="claw_support"/>
+    <child link="left_gear_pivot"/>
+    <origin xyz="-0.070 1.00 1.07" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="claw_support_to_right_gear_pivot" type="fixed">
+    <parent link="claw_support"/>
+    <child link="right_gear_pivot"/>
+    <origin xyz="0.095 1.00 1.07" rpy="0 0 0"/>
+  </joint>
+
+  <joint name="joint5_left_gear" type="revolute">
+    <parent link="left_gear_pivot"/>
+    <child link="left_finger"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="0" upper="1.309" effort="3" velocity="1"/>
+  </joint>
+
+  <joint name="joint6_right_gear" type="revolute">
+    <parent link="right_gear_pivot"/>
+    <child link="right_finger"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.309" upper="0" effort="3" velocity="1"/>
+    <mimic joint="joint5_left_gear" multiplier="-1" offset="0"/>
+  </joint>
+
+</robot>

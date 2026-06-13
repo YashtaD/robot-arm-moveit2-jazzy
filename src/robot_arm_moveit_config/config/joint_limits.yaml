@@ -1,0 +1,59 @@
+# joint_limits.yaml
+# ══════════════════════════════════════════════════════════════════
+# FIX: max_acceleration was 0 (or missing) for all joints.
+# AddTimeOptimalParameterization (TOTG) divides by acceleration
+# to compute trajectory timing. With acceleration = 0 it cannot
+# integrate the path → "zero acceleration and velocity" error.
+#
+# Values chosen conservatively for a hobby-grade robot arm:
+#   max_velocity     : 1.0 rad/s  (matches URDF joint limits)
+#   max_acceleration : 0.5 rad/s² (safe for small servo motors)
+#
+# You can increase max_acceleration up to ~2.0 for faster motion,
+# but start conservative and test first.
+# ══════════════════════════════════════════════════════════════════
+
+joint_limits:
+
+  # ── Arm joints (actively planned by move_group) ─────────────────
+  joint1:
+    has_velocity_limits: true
+    max_velocity: 1.0
+    has_acceleration_limits: true
+    max_acceleration: 0.5
+
+  joint2:
+    has_velocity_limits: true
+    max_velocity: 1.0
+    has_acceleration_limits: true
+    max_acceleration: 0.5
+
+  # ── Gripper driver joint ─────────────────────────────────────────
+  joint5_left_gear:
+    has_velocity_limits: true
+    max_velocity: 1.0
+    has_acceleration_limits: true
+    max_acceleration: 0.5
+
+  # ── Passive joints (parallel linkage braces) ─────────────────────
+  # These are not commanded but TOTG still needs their limits
+  # defined to avoid the zero-acceleration error.
+  joint3_vertical_drive_arm:
+    has_velocity_limits: true
+    max_velocity: 1.0
+    has_acceleration_limits: true
+    max_acceleration: 0.5
+
+  joint4_triangular_link:
+    has_velocity_limits: true
+    max_velocity: 1.0
+    has_acceleration_limits: true
+    max_acceleration: 0.5
+
+  # ── Mimic joint ──────────────────────────────────────────────────
+  # joint6 follows joint5 via mimic — still needs limits defined
+  joint6_right_gear:
+    has_velocity_limits: true
+    max_velocity: 1.0
+    has_acceleration_limits: true
+    max_acceleration: 0.5
